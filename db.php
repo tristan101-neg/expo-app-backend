@@ -1,9 +1,9 @@
 <?php
 // db.php
-$DB_HOST = "sql308.yzz.me";
-$DB_USER = "	yzzme_40994126";
-$DB_PASS = ""; // Set your password if any
-$DB_NAME = "yzzme_40994126_cashier_db";
+$DB_HOST = "localhost";
+$DB_USER = "if0_41001723";
+$DB_PASS = "yifUlIGPu7"; // Set your password if any
+$DB_NAME = "if0_41001723_XXX";
 
 // Create connection
 $conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);

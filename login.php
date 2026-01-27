@@ -13,7 +13,7 @@ if ($username === '' || $password === '') {
 }
 
 $stmt = $conn->prepare(
-    "SELECT id, role, password FROM users WHERE username=? AND is_available=1"
+    "SELECT id, role, password FROM users WHERE username=?"
 );
 $stmt->bind_param("s", $username);
 $stmt->execute();

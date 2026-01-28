@@ -1,6 +1,6 @@
 <?php
 // db.php
-$DB_HOST = "sql200.infinityfree.com";
+$DB_HOST = "localhost";
 $DB_USER = "if0_41001723";
 $DB_PASS = "yifUlIGPu7"; // Set your password if any
 $DB_NAME = "if0_41001723_cashier_db";

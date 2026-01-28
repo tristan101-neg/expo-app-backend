@@ -1,20 +1,61 @@
 <?php
-// db.php
-$DB_HOST = "localhost";
-$DB_USER = "if0_41001723";
-$DB_PASS = "yifUlIGPu7"; // Set your password if any
-$DB_NAME = "if0_41001723_XXX";
+// ===== CORS =====
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Content-Type: application/json; charset=utf-8");
 
-// Create connection
-$conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
-
-// Check connection
-if ($conn->connect_error) {
-    die(json_encode([
-        "success" => false,
-        "message" => "Database connection failed: " . $conn->connect_error
-    ]));
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
 }
 
-$conn->set_charset("utf8mb4");
-?>
+require 'db.php';
+
+// Only allow POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode([
+        "success" => false,
+        "message" => "Invalid request method"
+    ]);
+    exit;
+}
+
+// Read JSON body
+$data = json_decode(file_get_contents("php://input"), true);
+
+$username = $data['username'] ?? '';
+$password = $data['password'] ?? '';
+
+if (!$username || !$password) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Missing credentials"
+    ]);
+    exit;
+}
+
+// Example query
+$stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($row = $result->fetch_assoc()) {
+    if (password_verify($password, $row['password'])) {
+        echo json_encode([
+            "success" => true,
+            "user_id" => $row['id']
+        ]);
+    } else {
+        echo json_encode([
+            "success" => false,
+            "message" => "Invalid password"
+        ]);
+    }
+} else {
+    echo json_encode([
+        "success" => false,
+        "message" => "User not found"
+    ]);
+}

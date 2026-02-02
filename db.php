@@ -1,7 +1,7 @@
 <?php
 // db.php
 
-$DB_HOST = "localhost";   // ✅ ALWAYS localhost
+$DB_HOST = "sql200.infinityfree.com";   // ✅ ALWAYS localhost
 $DB_USER = "if0_41001723";
 $DB_PASS = "yifUlIGPu7";
 $DB_NAME = "if0_41001723_cashier_db";
